@@ -1,0 +1,22 @@
+[project]
+name = "rc-raux-bot"
+version = "0.1.0"
+description = "A chatbot facilitating better ticket triage."
+readme = "README.md"
+authors = [{ name = "Simon Stone", email = "simon.stone@dartmouth.edu" }]
+requires-python = ">=3.13"
+dependencies = [
+    "chainlit>=2.6.2",
+    "fastapi>=0.115.14",
+    "langchain-dartmouth>=0.2.16",
+    "langgraph>=0.5.4",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.1",
+]
