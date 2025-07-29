@@ -15,7 +15,7 @@ A chatbot handling RAUX ticket intake.
 1. Run the backend API server:
 
 ```
-uv run uvicorn src.chatbot.api.main:app --reload --host 0.0.0.0 --port 8000
+uv run uvicorn src.rc_raux_bot.api.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
 2. Start the frontend server:
