@@ -1,5 +1,5 @@
 from langchain_dartmouth.llms import ChatDartmouthCloud
-from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
+from langchain_core.prompts import ChatPromptTemplate
 
 import os
 
@@ -14,8 +14,8 @@ TRIAGER_SYSTEM_MESSAGE = (
     "Briefly discuss the expertise needed for the ticket and then identify the best person "
     "to handle it. "
     'Respond with a valid JSON string with the key "assign_to" and the value being a list of '
-    "the names you picked. "
-    "You know the following team members and their specialized areas of expertise:\n"
+    "the IDs you picked. "
+    "You know the following team member IDs and their specialized areas of expertise:\n"
     f"{_get_triage_info()}"
 )
 
