@@ -79,7 +79,7 @@ def create_ticket(netid, title, description):
         }
     response = api_call(url, headers, payload)
     if response:
-        return response.get('ID')
+        return response.get('ID'), requestor_uid
     else:
         return None
 
