@@ -117,18 +117,18 @@ def ticket_writer_node(state: State):
     transcript = _messages_to_transcript(state["messages"])
     response = ticket_writer_agent.invoke(input={"transcript": transcript})
 
-    ticket_id, *tdx_uid = create_ticket(
+    ticket_id, *requestor = create_ticket(
         netid=response["netid"],
         title=response["title"],
         description=response["description"],
     )
-    if not ticket_id or not tdx_uid:
+    if not ticket_id:
         return
 
     text_message = tdx_to_slack(
         ticket=ticket_id,
-        requestor=response["netid"],
-        tdxuid=tdx_uid[0],
+        tdxuid=requestor[0],
+        requestor=requestor[1],
         title=response["title"],
         assignees="f006pfk,f00137c",
     )
