@@ -14,19 +14,19 @@ async def on_chat_start():
 async def set_starters():
     return [
         cl.Starter(
-            label="test",
-            message="test",
-            icon="rc-raux-bot/public/dartmouth_logo.svg",
+            label="HPC issues",
+            message="I need help with HPC",
+            icon="/public/dartmouth_logo.svg",
             ),
         cl.Starter(
-            label="test",
-            message="test",
-            icon="rc-raux-bot/public/dartmouth_logo.svg",
+            label="AI or langchain Dartmouth issues",
+            message="I need help with AI or langchain Dartmouth",
+            icon="/public/dartmouth_logo.svg",
             ),
          cl.Starter(
-            label="test",
-            message="test",
-            icon="rc-raux-bot/public/dartmouth_logo.svg",
+            label="Storage (DartFS etc...) issues",
+            message="I need help with Storage (DartFS etc...)",
+            icon="/public/dartmouth_logo.svg",
             ) 
     ]
 
