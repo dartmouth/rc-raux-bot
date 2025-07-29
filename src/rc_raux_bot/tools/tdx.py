@@ -79,9 +79,9 @@ def create_ticket(netid, title, description):
         }
     response = api_call(url, headers, payload)
     if response:
-        print(f"Ticket created successfully with ID: {response.get('ID')}")
+        return response.get('ID')
     else:
-        print("Failed to create ticket.")
+        return None
 
 # id, title, user-id
 
