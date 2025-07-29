@@ -3,6 +3,11 @@
 import chainlit as cl
 
 
+@cl.on_chat_start
+def on_chat_start():
+    print("A new chat session has started!")
+
+
 @cl.step(type="tool")
 async def tool():
     # Fake tool
