@@ -17,18 +17,37 @@ headers = {
   'Authorization': f'Bearer {bot_token}'
 }
 
+def format_assignees_with_mentions(assignees: str) -> str:
+    """Convert comma-separated netIDs to @mentions with fallback to plain text"""
+    if not assignees.strip():
+        return "None"
+    
+    assignee_list = [netid.strip() for netid in assignees.split(',')]
+    mentions = []
+    
+    for netid in assignee_list:
+        if netid:  # Skip empty strings
+            # Try @mention format - this will work if Slack username matches netID
+            mentions.append(f"<@{netid}>")
+    
+    return ', '.join(mentions)
+
 def tdx(ticket: str, title: str, assignees: str) -> str:
     """Generate a TDX URL with the given ticket ID"""
     """Title and assignees passed to Slack for display."""
     tdx_prefix = os.getenv("TDX_PREFIX", "")
     tdx_url = f"{tdx_prefix}{ticket}"
-    text = f"Ticket: {tdx_url}\nTitle: {title}\nAssignees: {assignees}"
+    
+    # Format assignees with @mentions
+    formatted_assignees = format_assignees_with_mentions(assignees)
+    
+    text = f"Ticket: {tdx_url}\nTitle: {title}\n:rosie-the-riveter: {formatted_assignees}"
 
     return text
 
 if __name__ == "__main__":
     try:
-        text = tdx(ticket="12910", title="A Very Good Title", assignees="User1, User2")
+        text = tdx(ticket="12910", title="I can only count to 4!", assignees="f00137c, f006pfk, f0084vd, f007cmt, f003vtr")
         payload = json.dumps({
         "channel": channel,
         "text": text
