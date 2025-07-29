@@ -120,6 +120,7 @@ interviewer = graph_builder.compile(checkpointer=memory)
 
 
 if __name__ == "__main__":
+    print(interviewer.get_graph().draw_ascii())
     response = interviewer.invoke(
         input={
             "messages": [
