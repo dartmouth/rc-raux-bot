@@ -35,10 +35,7 @@ def search_users(netid):
     payload = json.dumps({
         "ExternalID": netid
         })
-    headers = {
-        'Content-Type': 'application/json',
-        'Authorization': f"Bearer {token}" 
-    }
+    headers = {"Content-Type": "application/json", "Authorization": f"Bearer {token}"}
     response = api_call(url, headers, payload)
     uid = response[0].get('UID')
     print(uid)
@@ -64,7 +61,7 @@ def api_call(url, headers, payload):
 
 def create_ticket(netid, title, description):
     requestor_uid = search_users(netid)
-    # create ticket 
+    # create ticket
     url = f"{base_url}/{itc_app_id}/tickets?NotifyRequestor=true&NotifyResponsible=true&applyDefaults=true"
     payload = json.dumps({
         "Title": title,
@@ -81,7 +78,7 @@ def create_ticket(netid, title, description):
     if response:
         return response.get('ID'), requestor_uid
     else:
-        return None
+        return (None,)
 
 # id, title, user-id
 

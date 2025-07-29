@@ -1,5 +1,5 @@
 """Tools interfacing with Slack"""
-from turtle import title
+
 import requests
 import json
 import os
@@ -22,14 +22,14 @@ def format_assignees_with_mentions(assignees: str) -> str:
     """Convert comma-separated netIDs to @mentions with fallback to plain text"""
     if not assignees.strip():
         return "None"
-    
+
     assignee_list = [netid.strip() for netid in assignees.split(',')]
     mentions = []
-    
+
     for netid in assignee_list:
         if netid:
             mentions.append(f"<@{netid}>")
-    
+
     return ', '.join(mentions)
 
 def tdx_to_slack(ticket: str, requestor: str, tdxuid: str, title: str, assignees: str) -> str:
@@ -40,10 +40,10 @@ def tdx_to_slack(ticket: str, requestor: str, tdxuid: str, title: str, assignees
     """ Assignees: TDX ticket assignees, comma-separated netIDs"""
     tdx_prefix = os.getenv("TDX_PREFIX", "")
     person_deets_prefix = os.getenv("PERSON_DEETS_PREFIX", "")
-    
+
     tdx_url = f"{tdx_prefix}{ticket}"
     person_url = f"{person_deets_prefix}{tdxuid}"
-    
+
     # Format assignees with @mentions
     formatted_assignees = format_assignees_with_mentions(assignees)
 
@@ -58,7 +58,7 @@ def send_slack_message(text: str, channel: str = os.getenv("SLACK_CHANNEL", "C09
     })
     response = requests.post(url, headers=headers, data=payload, timeout=10)
     response.raise_for_status()
-    
+
     # Check if the request was successful
     if response.status_code == 200:
         # Parse the JSON response to check for Slack API errors
@@ -75,5 +75,5 @@ def send_slack_message(text: str, channel: str = os.getenv("SLACK_CHANNEL", "C09
 
 
 if __name__ == "__main__":
-    try:
-        tdx_payload = """Call Tim's method to get TDX payload"""
+
+    tdx_payload = """Call Tim's method to get TDX payload"""

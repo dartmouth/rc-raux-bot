@@ -14,6 +14,7 @@ from langgraph.types import interrupt
 from langgraph.checkpoint.memory import InMemorySaver
 
 from rc_raux_bot.tools.tdx import create_ticket
+from rc_raux_bot.tools.slack import tdx_to_slack, send_slack_message
 
 from dotenv import find_dotenv, load_dotenv
 
@@ -116,11 +117,22 @@ def ticket_writer_node(state: State):
     transcript = _messages_to_transcript(state["messages"])
     response = ticket_writer_agent.invoke(input={"transcript": transcript})
 
-    ticket_id = create_ticket(
+    ticket_id, *tdx_uid = create_ticket(
         netid=response["netid"],
         title=response["title"],
         description=response["description"],
     )
+    if not ticket_id or not tdx_uid:
+        return
+
+    text_message = tdx_to_slack(
+        ticket=ticket_id,
+        requestor=response["netid"],
+        tdxuid=tdx_uid[0],
+        title=response["title"],
+        assignees="f006pfk,f00137c",
+    )
+    send_slack_message(text=text_message)
     return {"messages": "I got what I need, ticket has been submitted!"}
 
 
