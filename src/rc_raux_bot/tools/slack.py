@@ -26,8 +26,7 @@ def format_assignees_with_mentions(assignees: str) -> str:
     mentions = []
     
     for netid in assignee_list:
-        if netid:  # Skip empty strings
-            # Try @mention format - this will work if Slack username matches netID
+        if netid:
             mentions.append(f"<@{netid}>")
     
     return ', '.join(mentions)
