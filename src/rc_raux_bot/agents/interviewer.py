@@ -13,6 +13,8 @@ from langgraph.graph.message import add_messages
 from langgraph.types import interrupt
 from langgraph.checkpoint.memory import InMemorySaver
 
+from rc_raux_bot.tools.tdx import create_ticket
+
 from dotenv import find_dotenv, load_dotenv
 
 load_dotenv(find_dotenv())
@@ -25,6 +27,7 @@ INTERVIEWER_SYSTEM_MESSAGE = (
     "fully articulated ticket with the context needed for a human "
     "to resolve the request. "
     "If the user does not supply sufficient information, ask follow-up questions. "
+    "Always ask for the user's NetID if they don't volunteer that information. "
 )
 
 interviewer_llm = ChatDartmouthCloud(model_name=os.environ["INTERVIEWER_MODEL"])
@@ -59,6 +62,27 @@ interview_auditor_llm = ChatDartmouthCloud(
 
 interview_auditor_agent = interview_auditor_prompt | interview_auditor_llm
 
+
+TICKET_WRITER_SYSTEM_MESSAGE = (
+    "You are a service ticket writer turning a transcript of a conversation between "
+    "a Dartmouth College Research Computing Team Member and a user. "
+    "The ticket needs to have a clear and expressive title, an informative description "
+    "(what is the request or the issue), and the NetID of the user. "
+    "Start the ticket's description with a warning that the ticket was AI generated. "
+    "Include the conversation transcript at the bottom of the ticket. "
+    "Respond with a JSON file containing the keys 'title', 'description', and 'netid'. "
+)
+ticket_writer_prompt = ChatPromptTemplate(
+    [
+        ("system", TICKET_WRITER_SYSTEM_MESSAGE),
+        ("user", "Here is the conversation transcript:\n{transcript}"),
+    ]
+)
+ticket_writer_llm = ChatDartmouthCloud(model_name=os.environ["TICKET_WRITER_MODEL"])
+
+ticket_writer_agent = ticket_writer_prompt | ticket_writer_llm | JsonOutputParser()
+
+
 class State(TypedDict):
     # Messages have the type "list". The `add_messages` function
     # in the annotation defines how this state key should be updated
@@ -89,7 +113,15 @@ def _messages_to_transcript(messages):
 
 
 def ticket_writer_node(state: State):
-    return {"messages": "I got what I need, ticket will be submitted!"}
+    transcript = _messages_to_transcript(state["messages"])
+    response = ticket_writer_agent.invoke(input={"transcript": transcript})
+
+    ticket_id = create_ticket(
+        netid=response["netid"],
+        title=response["title"],
+        description=response["description"],
+    )
+    return {"messages": "I got what I need, ticket has been submitted!"}
 
 
 def has_sufficient_context(state: State):
