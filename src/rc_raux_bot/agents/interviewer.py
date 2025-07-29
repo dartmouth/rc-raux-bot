@@ -10,9 +10,9 @@ from typing_extensions import TypedDict
 
 from langgraph.graph import StateGraph, START, END
 from langgraph.graph.message import add_messages
-from langgraph.types import interrupt
 from langgraph.checkpoint.memory import InMemorySaver
 
+from .triager import triager_agent
 from rc_raux_bot.tools.tdx import create_ticket
 from rc_raux_bot.tools.slack import tdx_to_slack, send_slack_message
 
@@ -117,6 +117,10 @@ def ticket_writer_node(state: State):
     transcript = _messages_to_transcript(state["messages"])
     response = ticket_writer_agent.invoke(input={"transcript": transcript})
 
+    triaging_response = triager_agent.invoke(
+        input={"ticket_content": response["title"] + "\n" + response["description"]}
+    )
+
     ticket_id, *requestor = create_ticket(
         netid=response["netid"],
         title=response["title"],
@@ -130,7 +134,7 @@ def ticket_writer_node(state: State):
         tdxuid=requestor[0],
         requestor=requestor[1],
         title=response["title"],
-        assignees="f006pfk,f00137c",
+        assignees=",".join(triaging_response["assign_to"]),
     )
     send_slack_message(text=text_message)
     return {"messages": "I got what I need, ticket has been submitted!"}

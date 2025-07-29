@@ -26,16 +26,23 @@ async def main(message: cl.Message):
     config={"configurable": {"thread_id": cl.user_session.get('id')}}
     cb = cl.LangchainCallbackHandler()
     final_answer = cl.Message(content='')
-    
-    for msg, metadata in interviewer.stream({"messages": [HumanMessage(content=user_input)]}, 
-                                            stream_mode="messages", 
-                                            config=RunnableConfig(callbacks=[cb],
-                                                                   **config)):
+
+    for msg, metadata in interviewer.stream(
+        {"messages": [HumanMessage(content=user_input)]},
+        stream_mode="messages",
+        config=RunnableConfig(callbacks=[cb], **config),
+    ):
         if (
-           msg.content
+            msg.content
             and not isinstance(msg, HumanMessage)
-            and metadata["langgraph_node"] in ('interviewer_node', 'ticket_writer_node') 
+            and metadata["langgraph_node"] in ("interviewer_node", "ticket_writer_node")
         ):
             await final_answer.stream_token(msg.content)
-        
+
     await final_answer.send()
+
+
+if __name__ == "__main__":
+    from chainlit.cli import run_chainlit
+
+    run_chainlit(__file__)

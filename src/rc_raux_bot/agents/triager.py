@@ -1,11 +1,17 @@
 from langchain_dartmouth.llms import ChatDartmouthCloud
 from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import JsonOutputParser
 
 import os
 
 
 def _get_triage_info():
-    return ""
+    triage_info = {
+        "f006pfk": "Simon has expertise in GenAI programming and HPC.",
+        "d18014p": "Hudson has expertise in HPC and Slurm.",
+        "d31314a": "Richard has expertise in cyberintrastructure engineering and research computing systems.",
+    }
+    return "\n".join([f"{key}: {value}" for key, value in triage_info.items()])
 
 
 TRIAGER_SYSTEM_MESSAGE = (
@@ -17,6 +23,7 @@ TRIAGER_SYSTEM_MESSAGE = (
     "the IDs you picked. "
     "You know the following team member IDs and their specialized areas of expertise:\n"
     f"{_get_triage_info()}"
+    "\nWhen in doubt, assign to Richard (d31314a)."
 )
 
 triager_llm = ChatDartmouthCloud(model_name=os.environ["TRIAGER_MODEL"])
@@ -26,4 +33,4 @@ triager_prompt = ChatPromptTemplate(
         ("user", "Here is the ticket to triage: \n{ticket_content}"),
     ]
 )
-triager_agent = triager_prompt | triager_llm
+triager_agent = triager_prompt | triager_llm | JsonOutputParser()
