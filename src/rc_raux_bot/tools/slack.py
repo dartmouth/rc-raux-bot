@@ -31,26 +31,29 @@ def format_assignees_with_mentions(assignees: str) -> str:
     
     return ', '.join(mentions)
 
-def tdx(ticket: str, requestor: str, title: str, assignees: str) -> str:
+def tdx(ticket: str, requestor: str, tdxuid: str, title: str, assignees: str) -> str:
     """ Generate a TDX URL with the given ticket ID"""
     """ Title and assignees passed to Slack for display."""
     """ Ticket: TDX ticket number"""
     """ Title: TDX ticket title"""
     """ Assignees: TDX ticket assignees, comma-separated netIDs"""
     tdx_prefix = os.getenv("TDX_PREFIX", "")
+    person_deets_prefix = os.getenv("PERSON_DEETS_PREFIX", "")
+    
     tdx_url = f"{tdx_prefix}{ticket}"
+    person_url = f"{person_deets_prefix}{tdxuid}"
     
     # Format assignees with @mentions
     formatted_assignees = format_assignees_with_mentions(assignees)
 
-    text = f"Ticket: {tdx_url}\nRequestor: <@{requestor}>\nTitle: {title}\n:rosie-the-riveter: {formatted_assignees}"
+    text = f"Ticket: {tdx_url}\nRequestor: <{person_url}|{requestor}>\nTitle: {title}\n:rosie-the-riveter: {formatted_assignees}"
 
     return text
 
 if __name__ == "__main__":
     try:
         """ TO DO: get payload for TDX formatting from Tim's code"""
-        text = tdx(ticket="12910", requestor="f00137c", title="I can only count to 4!", assignees="f00137c, f006pfk, f0084vd, f007cmt, f003vtr")
+        text = tdx(ticket="12910", requestor="f00137c", tdxuid="856084ff-90c0-e811-a961-000d3a137856", title="I can only count to 4!", assignees="f00137c, f006pfk, f0084vd, f007cmt, f003vtr")
         payload = json.dumps({
         "channel": channel,
         "text": text
