@@ -41,8 +41,8 @@ def search_users(netid):
     }
     response = api_call(url, headers, payload)
     uid = response[0].get('UID')
-    print(uid)
-    return uid
+    full_name = response[0].get('FullName')
+    return uid, full_name
 
 
 def api_call(url, headers, payload):
@@ -63,7 +63,7 @@ def api_call(url, headers, payload):
         print(f"An unknown error occurred during the POST request: {err}")
 
 def create_ticket(netid, title, description):
-    requestor_uid = search_users(netid)
+    requestor_uid, full_name = search_users(netid)
     # create ticket 
     url = f"{base_url}/{itc_app_id}/tickets?NotifyRequestor=true&NotifyResponsible=true&applyDefaults=true"
     payload = json.dumps({
@@ -79,11 +79,11 @@ def create_ticket(netid, title, description):
         }
     response = api_call(url, headers, payload)
     if response:
-        return response.get('ID'), requestor_uid
+        return response.get('ID'), requestor_uid, full_name
     else:
         return None
 
 # id, title, user-id
 
 if __name__ == "__main__":
-    create_ticket(response["netid"], response["title"], response["description"])
+    create_ticket("f007cmt", "Test Ticket", "This is a test ticket.")
