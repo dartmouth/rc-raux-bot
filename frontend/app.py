@@ -8,7 +8,28 @@ from langchain_core.messages import HumanMessage
 @cl.on_chat_start
 async def on_chat_start():
     session_id = cl.user_session.get("id")
-    await cl.Message(f"Welcome to Research Computing Helper Chat! \n session id: {session_id}").send()
+    await cl.Message(f"Welcome to Raux Bot! \n Session ID: {session_id} \n How can I help?").send()
+
+@cl.set_starters
+async def set_starters():
+    return [
+        cl.Starter(
+            label="test",
+            message="test",
+            icon="/public/dartmouth_logo.png",
+            ),
+        cl.Starter(
+            label="test",
+            message="test",
+            icon="/public/dartmouth_logo.png",
+            ),
+         cl.Starter(
+            label="test",
+            message="test",
+            icon="/public/dartmouth_logo.png",
+            ) 
+    ]
+
 
 @cl.on_message  # this function will be called every time a user inputs a message in the UI
 async def main(message: cl.Message):
