@@ -34,14 +34,8 @@ async def main(message: cl.Message):
         if (
            msg.content
             and not isinstance(msg, HumanMessage)
-            and metadata["langgraph_node"] == 'interviewer_node' 
+            and metadata["langgraph_node"] in ('interviewer_node', 'ticket_writer_node') 
         ):
             await final_answer.stream_token(msg.content)
-    await final_answer.send()
-
-    # response = interviewer.invoke(
-    #     input={
-    #         "messages":[
-    #         {"role": "user", "content": user_input}]},  # Use the original content
         
-    # )
+    await final_answer.send()
