@@ -75,5 +75,4 @@ def send_slack_message(text: str, channel: str = os.getenv("SLACK_CHANNEL", "C09
 
 
 if __name__ == "__main__":
-    try:
-        tdx_payload = """Call Tim's method to get TDX payload"""
+    tdx_payload = """Call Tim's method to get TDX payload"""
