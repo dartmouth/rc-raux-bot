@@ -16,20 +16,19 @@ async def set_starters():
         cl.Starter(
             label="test",
             message="test",
-            icon="/public/dartmouth_logo.png",
+            icon="rc-raux-bot/public/dartmouth_logo.svg",
             ),
         cl.Starter(
             label="test",
             message="test",
-            icon="/public/dartmouth_logo.png",
+            icon="rc-raux-bot/public/dartmouth_logo.svg",
             ),
          cl.Starter(
             label="test",
             message="test",
-            icon="/public/dartmouth_logo.png",
+            icon="rc-raux-bot/public/dartmouth_logo.svg",
             ) 
     ]
-
 
 @cl.on_message  # this function will be called every time a user inputs a message in the UI
 async def main(message: cl.Message):
