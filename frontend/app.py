@@ -4,8 +4,10 @@ import chainlit as cl
 
 
 @cl.on_chat_start
-def on_chat_start():
-    print("A new chat session has started!")
+async def on_chat_start():
+    
+    msg = cl.Message(content="new chat session has started!")
+    await msg.send()
 
 
 @cl.step(type="tool")
