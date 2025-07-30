@@ -17,17 +17,17 @@ async def set_starters():
             label="HPC issues",
             message="I need help with HPC",
             icon="/public/dartmouth_logo.svg",
-            ),
+        ),
         cl.Starter(
             label="AI or langchain Dartmouth issues",
             message="I need help with AI or langchain Dartmouth",
             icon="/public/dartmouth_logo.svg",
-            ),
-         cl.Starter(
+        ),
+        cl.Starter(
             label="Storage (DartFS etc...) issues",
             message="I need help with Storage (DartFS etc...)",
             icon="/public/dartmouth_logo.svg",
-            ) 
+        ),
     ]
 
 @cl.on_message  # this function will be called every time a user inputs a message in the UI
@@ -45,6 +45,10 @@ async def main(message: cl.Message):
     user_input = message.content
     config={"configurable": {"thread_id": cl.user_session.get('id')}}
     cb = cl.LangchainCallbackHandler()
+    # This is working around a bug in the LangchainCallbackHandler
+    # and shouldn't be necessary.
+    # TODO: Check if fixed in an update of Chainlit or LangChain
+    cb._schema_format = "original+chat"
     final_answer = cl.Message(content='')
 
     for msg, metadata in interviewer.stream(
