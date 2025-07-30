@@ -9,27 +9,27 @@ from langchain_core.messages import HumanMessage
 async def set_starters():
     return [
         cl.Starter(
-            label="HPC issues",
+            label="HPC support",
             message="I need help with HPC",
-            icon="/public/dartmouth_logo.svg",
+            icon="/public/logo_light.png",
             ),
         cl.Starter(
-            label="AI or Langchain Dartmouth issues",
+            label="AI/Langchain Support",
             message="I need help with AI or langchain Dartmouth",
-            icon="/public/dartmouth_logo.svg",
+            icon="/public/logo_light.png",
             ),
          cl.Starter(
-            label="Storage related issues",
+            label="Job support",
             message="I need help with Storage (DartFS etc...)",
-            icon="/public/dartmouth_logo.svg",
-            ) 
+            icon="/public/logo_light.png",
+            )
     ]
 
-@cl.on_message  # this function will be called every time a user inputs a message in the UI
+@cl.on_message 
 async def main(message: cl.Message):
     """
     This function is called every time a user inputs a message in the UI.
-    It sends back an intermediate response from the tool, followed by the final answer.
+    runs through two processes: 
 
     Args:
         message: The user's message.
