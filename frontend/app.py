@@ -10,17 +10,17 @@ async def set_starters():
     return [
         cl.Starter(
             label="HPC support",
-            message="I need help with HPC",
+            message="I need support with HPC",
             icon="/public/logo_light.png",
             ),
         cl.Starter(
             label="AI/Langchain Support",
-            message="I need help with AI or langchain Dartmouth",
+            message="I need support with AI or langchain Dartmouth",
             icon="/public/logo_light.png",
             ),
          cl.Starter(
             label="Job support",
-            message="I need help with Storage (DartFS etc...)",
+            message="I need support with Storage (DartFS, Discovert Clusters, Slurm, etc...)",
             icon="/public/logo_light.png",
             )
     ]
