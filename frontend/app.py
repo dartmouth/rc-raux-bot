@@ -29,7 +29,9 @@ async def set_starters():
 async def main(message: cl.Message):
     """
     This function is called every time a user inputs a message in the UI.
-    runs through two processes: 
+    runs the interviewer agent on_message until the condition 'has_sufficient_context' is met, 
+    at which point the ticket_writer_node is run. 
+    This will fill out a ticket form with the information gathered from the interviewer agent's interactions with the user.
 
     Args:
         message: The user's message.
