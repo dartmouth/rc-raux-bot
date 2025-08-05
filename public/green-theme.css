@@ -1,9 +1,10 @@
 /* Custom Green Theme for Chainlit */
 :root {
-  --dartmouth-green: #1B5E20;
-  --dartmouth-green-light: #4CAF50;
-  --dartmouth-green-dark: #0D4A12;
-  --dartmouth-green-lighter: #66BB6A;
+  --dartmouth-green: #00693E;
+  --dartmouth-green-light: #12312b;
+  --dartmouth-green-dark: #0D1E1C;
+  --snow-white: #FFFFFF;
+  --midnight-black: #000000;
 }
 
 /* Main theme colors */
@@ -11,19 +12,19 @@
   --primary: var(--dartmouth-green) !important;
   --primary-light: var(--dartmouth-green-light) !important;
   --primary-dark: var(--dartmouth-green-dark) !important;
-  --secondary: var(--dartmouth-green-lighter) !important;
+  --secondary: var(--snow-white) !important;
 }
 
 [data-theme="dark"] {
   --primary: var(--dartmouth-green-light) !important;
-  --primary-light: var(--dartmouth-green-lighter) !important;
-  --primary-dark: var(--dartmouth-green) !important;
-  --secondary: var(--dartmouth-green) !important;
+  --primary-light: var(--dartmouth-green) !important;
+  --primary-dark: var(--dartmouth-green-dark) !important;
+  --secondary: var(--midnight-black) !important;
 }
 
 /* Header and navigation */
 .cl-header {
-  background: linear-gradient(135deg, var(--dartmouth-green) 0%, var(--dartmouth-green-light) 100%) !important;
+  background: linear-gradient(135deg, var(--dartmouth-green) 0%, var(--dartmouth-green-dark) 100%) !important;
 }
 
 /* Message input area */
@@ -32,19 +33,19 @@
 }
 
 .cl-input:focus {
-  box-shadow: 0 0 0 2px rgba(27, 94, 32, 0.2) !important;
+  box-shadow: 0 0 0 2px rgba(0, 105, 62, 0.2) !important;
   border-color: var(--dartmouth-green) !important;
 }
 
 /* Send button */
 .cl-send-button {
-  background: linear-gradient(135deg, var(--dartmouth-green) 0%, var(--dartmouth-green-light) 100%) !important;
-  box-shadow: 0 4px 8px rgba(27, 94, 32, 0.3) !important;
+  background: linear-gradient(135deg, var(--dartmouth-green) 0%, var(--dartmouth-green-dark) 100%) !important;
+  box-shadow: 0 4px 8px rgba(0, 105, 62, 0.3) !important;
 }
 
 .cl-send-button:hover {
   background: linear-gradient(135deg, var(--dartmouth-green-dark) 0%, var(--dartmouth-green) 100%) !important;
-  box-shadow: 0 6px 12px rgba(27, 94, 32, 0.4) !important;
+  box-shadow: 0 6px 12px rgba(0, 105, 62, 0.4) !important;
 }
 
 /* Starter buttons */
@@ -56,15 +57,15 @@
 
 .cl-starter-button:hover {
   background-color: var(--dartmouth-green) !important;
-  color: white !important;
+  color: var(--snow-white) !important;
   transform: translateY(-2px) !important;
-  box-shadow: 0 4px 12px rgba(27, 94, 32, 0.3) !important;
+  box-shadow: 0 4px 12px rgba(0, 105, 62, 0.3) !important;
 }
 
 /* Message bubbles */
 .cl-message-user {
   background: linear-gradient(135deg, var(--dartmouth-green-light) 0%, var(--dartmouth-green) 100%) !important;
-  color: white !important;
+  color: var(--snow-white) !important;
 }
 
 .cl-message-assistant {
@@ -106,20 +107,20 @@ button {
 
 button:hover {
   background-color: var(--dartmouth-green) !important;
-  color: white !important;
+  color: var(--snow-white) !important;
 }
 
 /* Input focus states */
 input:focus, textarea:focus {
   border-color: var(--dartmouth-green) !important;
-  box-shadow: 0 0 0 2px rgba(27, 94, 32, 0.2) !important;
+  box-shadow: 0 0 0 2px rgba(0, 105, 62, 0.2) !important;
 }
 
 /* Force the send button background and icon to Dartmouth green */
 .MuiIconButton-root,
 .MuiIconButton-root .MuiSvgIcon-root {
   background: var(--dartmouth-green) !important;
-  color: #fff !important;
+  color: var(--snow-white) !important;
   border: none !important;
   box-shadow: none !important;
 }
@@ -128,23 +129,23 @@ input:focus, textarea:focus {
 .MuiIconButton-root:hover,
 .MuiIconButton-root:hover .MuiSvgIcon-root {
   background: var(--dartmouth-green-dark) !important;
-  color: #fff !important;
+  color: var(--snow-white) !important;
 }
 
 /* Override the send button's primary background and hover color */
 .bg-primary {
   background: var(--dartmouth-green) !important;
-  color: #fff !important;
+  color: var(--snow-white) !important;
   border: none !important;
 }
 
 .text-primary-foreground {
-  color: #fff !important;
+  color: var(--snow-white) !important;
 }
 
 /* Tailwind hover:bg-primary/90 uses a slash, so escape it */
 .hover\:bg-primary\/90:hover,
 .bg-primary:hover {
   background: var(--dartmouth-green-dark) !important;
-  color: #fff !important;
+  color: var(--snow-white) !important;
 }
