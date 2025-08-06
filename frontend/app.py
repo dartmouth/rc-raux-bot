@@ -5,6 +5,11 @@ from rc_raux_bot.agents.interviewer import interviewer
 from langchain.schema.runnable.config import RunnableConfig
 from langchain_core.messages import HumanMessage
 
+@cl.on_chat_start
+async def on_chat_start():
+    session_id = cl.user_session.get("id")
+    await cl.Message(f"Welcome to Raux Bot! \n Session ID: {session_id} \n How can I help?").send()
+
 @cl.set_starters
 async def set_starters():
     return [
@@ -42,17 +47,28 @@ async def main(message: cl.Message):
     user_input = message.content
     config={"configurable": {"thread_id": cl.user_session.get('id')}}
     cb = cl.LangchainCallbackHandler()
+    # This is working around a bug in the LangchainCallbackHandler
+    # and shouldn't be necessary.
+    # TODO: Check if fixed in an update of Chainlit or LangChain
+    cb._schema_format = "original+chat"
     final_answer = cl.Message(content='')
-    
-    for msg, metadata in interviewer.stream({"messages": [HumanMessage(content=user_input)]}, 
-                                            stream_mode="messages", 
-                                            config=RunnableConfig(callbacks=[cb],
-                                                                   **config)):
+
+    for msg, metadata in interviewer.stream(
+        {"messages": [HumanMessage(content=user_input)]},
+        stream_mode="messages",
+        config=RunnableConfig(callbacks=[cb], **config),
+    ):
         if (
-           msg.content
+            msg.content
             and not isinstance(msg, HumanMessage)
-            and metadata["langgraph_node"] in ('interviewer_node', 'ticket_writer_node') 
+            and metadata["langgraph_node"] in ("interviewer_node", "ticket_writer_node")
         ):
             await final_answer.stream_token(msg.content)
-        
+
     await final_answer.send()
+
+
+if __name__ == "__main__":
+    from chainlit.cli import run_chainlit
+
+    run_chainlit(__file__)
