@@ -1,163 +1,113 @@
+# ==============================================================================
+# CHAINLIT CONFIGURATION - RAUX-BOT
+# ==============================================================================
+
 [project]
-# List of environment variables to be provided by each user to use the app.
+# Session Management
 user_env = []
-
-# Duration (in seconds) during which the session is saved when the connection is lost
-session_timeout = 3600
-
-# Duration (in seconds) of the user session expiry
-user_session_timeout = 1296000 # 15 days
-
-# Enable third parties caching (e.g., LangChain cache)
+session_timeout = 3600                    # 1 hour connection timeout
+user_session_timeout = 1296000            # 15 days user session
 cache = false
-
-# Authorized origins
 allow_origins = ["*"]
 
-[features]
-# Process and display HTML in messages. This can be a security risk (see https://stackoverflow.com/questions/19603097/why-is-it-dangerous-to-render-user-generated-html-or-javascript)
-unsafe_allow_html = false
+# ==============================================================================
+# FEATURES
+# ==============================================================================
 
-# Process and display mathematical expressions. This can clash with "$" characters in messages.
+[features]
+# Content Processing
+unsafe_allow_html = false
 latex = false
 
-# Autoscroll new user messages at the top of the window
+# User Experience
 user_message_autoscroll = true
-
-# Automatically tag threads with the current chat profile (if a chat profile is used)
 auto_tag_thread = true
-
-# Allow users to edit their own messages
 edit_message = true
 
-# Authorize users to spontaneously upload files with messages
+# File Upload Settings
 [features.spontaneous_file_upload]
 enabled = true
-# Define accepted file types using MIME types
-# Examples:
-# 1. For specific file types:
-#    accept = ["image/jpeg", "image/png", "application/pdf"]
-# 2. For all files of certain type:
-#    accept = ["image/*", "audio/*", "video/*"]
-# 3. For specific file extensions:
-#    accept = { "application/octet-stream" = [".xyz", ".pdb"] }
-# Note: Using "*/*" is not recommended as it may cause browser warnings
-accept = ["*/*"]
+accept = ["*/*"]                          
 max_files = 20
 max_size_mb = 500
 
+# Audio Configuration
 [features.audio]
-# Sample rate of the audio
 sample_rate = 24000
 
+# MCP (Model Context Protocol) Settings
 [features.mcp.sse]
 enabled = true
 
 [features.mcp.stdio]
 enabled = true
-# Only the executables in the allow list can be used for MCP stdio server.
-# Only need the base name of the executable, e.g. "npx", not "/usr/bin/npx".
-# Please don't comment this line for now, we need it to parse the executable name.
 allowed_executables = ["npx", "uvx"]
 
+# ==============================================================================
+# USER INTERFACE
+# ==============================================================================
+
 [UI]
-# Name of the assistant.
+# Basic Settings
 name = "RAUX-bot"
-
 default_theme = "light"
+cot = "full"                              # Chain of Thought display mode
 
-# layout = "wide"
+# Visual Assets
+favicon = "/public/favicon.ico"
+default_avatar_file_url = "/public/logo_light.png"
+logo_file_url = "/public/logo_light.png"
 
-# default_sidebar_state = "open"
-
-# Description of the assistant. This is used for HTML tags.
-# description = ""
-
-# Chain of Thought (CoT) display mode. Can be "hidden", "tool_call" or "full".
-cot = "full"
-favicon = "/favicon.ico"
-# Specify a CSS file that can be used to customize the user interface.
-# The CSS file can be served from the public directory or via an external link.
+# Customization
 custom_css = "/public/green-theme.css"
-
-# Specify additional attributes for a custom CSS file
-# custom_css_attributes = "media=\"print\""
-
-# Specify a JavaScript file that can be used to customize the user interface.
-# The JavaScript file can be served from the public directory.
-# custom_js = "/public/test.js"
-
-# The style of alert boxes. Can be "classic" or "modern".
 alert_style = "classic"
 
-# Specify additional attributes for custom JS file
-# custom_js_attributes = "async type = \"module\""
+# Disabled/Optional Settings (uncomment to use)
+# layout = "wide"
+# default_sidebar_state = "open"
+# description = ""
+# custom_js = "/public/"
+# logo_file_url = ""
 
-# Custom login page image, relative to public directory or external URL
-# login_page_image = "/public/logo_dark.png"
+# ==============================================================================
+# THEME CONFIGURATION - DARTMOUTH GREEN
+# ==============================================================================
 
-# Custom login page image filter (Tailwind internal filters, no dark/light variants)
-# login_page_image_filter = "brightness-50 grayscale"
-# login_page_image_dark_filter = "contrast-200 blur-sm"
-
-
-
-# Specify a custom meta image url.
-# custom_meta_image_url = "https://chainlit-cloud.s3.eu-west-3.amazonaws.com/logo/chainlit_banner.png"
-
-# Load assistant logo directly from URL.
-logo_file_url = ""
-
-# Load assistant avatar image directly from URL.
-default_avatar_file_url = "/public/dartmouth_logo.svg"
-
-# Custom Green Theme Configuration
 [UI.theme.light]
-# Primary green color
-primary = "#1B5E20"
-# Secondary green
-secondary = "#2E7D32"
-# Background colors
-background = "#FFFFFF"
-paper = "#F8F9FA"
-# Surface colors
-surface = "#FFFFFF"
-# Text colors
-textPrimary = "#1B5E20"
-textSecondary = "#2E7D32"
-# Error and warning colors (keeping standard for usability)
+# Dartmouth Green Theme - Light Mode
+primary = "#00693E"                       # Dartmouth Green
+secondary = "#12312b"                     # Dartmouth Green Light
+background = "#FFFFFF"                    # White
+paper = "#F8F9FA"                        # Light Gray
+surface = "#FFFFFF"                      # White
+textPrimary = "#00693E"                  # Dartmouth Green
+textSecondary = "#12312b"                # Dartmouth Green Light
+
+# Standard System Colors
 error = "#D32F2F"
 warning = "#F57C00"
 info = "#1976D2"
-success = "#388E3C"
+success = "#00693E"                      # Dartmouth Green
 
-
-# Optional: Dark theme variant with green accents
 [UI.theme.dark]
-primary = "#4CAF50"
-secondary = "#66BB6A"
-background = "#121212"
-paper = "#1E1E1E"
-surface = "#424242"
-textPrimary = "#FFFFFF"
-textSecondary = "#4CAF50"
+# Dartmouth Green Theme - Dark Mode
+primary = "#12312b"                      # Dartmouth Green Light
+secondary = "#00693E"                    # Dartmouth Green
+background = "#424141"                   # Dark Gray
+paper = "#1E1E1E"                       # Darker Gray
+surface = "#424242"                     # Medium Gray
+textPrimary = "#FFFFFF"                 # White
+textSecondary = "#12312b"               # Dartmouth Green Light
+
+# Standard System Colors
 error = "#F44336"
 warning = "#FF9800"
 info = "#2196F3"
-success = "#4CAF50"
+success = "#00693E"                     # Dartmouth Green
 
-
-# Specify a custom build directory for the frontend.
-# This can be used to customize the frontend code.
-# Be careful: If this is a relative path, it should not start with a slash.
-# custom_build = "./public/build"
-
-# Specify optional one or more custom links in the header.
-# [[UI.header_links]]
-#     name = "Issues"
-#     display_name = "Report Issue"
-#     icon_url = "https://avatars.githubusercontent.com/u/128686189?s=200&v=4"
-#     url = "https://github.com/Chainlit/chainlit/issues"
+# ==============================================================================
+# METADATA
+# ==============================================================================
 
 [meta]
 generated_by = "2.6.2"
