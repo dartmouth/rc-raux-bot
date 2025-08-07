@@ -13,7 +13,7 @@ from langgraph.graph.message import add_messages
 from langgraph.checkpoint.memory import InMemorySaver
 
 from .triager import triager_agent
-from rc_raux_bot.tools.tdx import create_ticket
+from rc_raux_bot.tools.tdx import create_ticket_simple
 from rc_raux_bot.tools.slack import tdx_to_slack, send_slack_message
 
 from dotenv import find_dotenv, load_dotenv
@@ -121,7 +121,7 @@ def ticket_writer_node(state: State):
         input={"ticket_content": response["title"] + "\n" + response["description"]}
     )
 
-    ticket_id, *requestor = create_ticket(
+    ticket_id, *requestor = create_ticket_simple(
         netid=response["netid"],
         title=response["title"],
         description=response["description"],
